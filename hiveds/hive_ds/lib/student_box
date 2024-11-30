@@ -1,0 +1,26 @@
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Student Records'),
+    ),
+    body: ValueListenableBuilder(
+      valueListenable: studentBox.listenable(),  // Watch the Hive box for changes
+      builder: (context, Box<Student> box, _) {
+        if (box.isEmpty) {
+          return Center(child: Text('No students added'));  // Show a message if there are no students
+        }
+        return ListView.builder(
+          itemCount: box.length,
+          itemBuilder: (context, index) {
+            final student = box.getAt(index);
+            return ListTile(
+              title: Text(student!.name),
+              subtitle: Text('Age: ${student.age}'),
+            );
+          },
+        );
+      },
+    ),
+  );
+}
